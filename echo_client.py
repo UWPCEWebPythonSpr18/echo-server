@@ -21,7 +21,7 @@ def client(msg, log_buffer=sys.stderr):
     try:
         print('sending "{0}"'.format(msg), file=log_buffer)
         # TODO: send your message to the server here.
-        sock.sendall(msg)
+        sock.sendall(msg.encode('utf8'))
         while True:
             chunk = sock.recv(16, file=log_buffer)
             if not chunk:
@@ -47,11 +47,12 @@ def client(msg, log_buffer=sys.stderr):
         # you received from the server as the return value of this function.
 
 
-if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        usage = '\nusage: python echo_client.py "this is my message"\n'
-        print(usage, file=sys.stderr)
-        sys.exit(1)
+#if __name__ == '__main__':
+ #   if len(sys.argv) != 2:
+  #      usage = '\nusage: python echo_client.py "this is my message"\n'
+   #     print(usage, file=sys.stderr)
+    #    sys.exit(1)
 
-    msg = sys.argv[1]
-    client(msg)
+   # msg = sys.argv[1]
+    #client(msg)
+client('hello my name is dan and I work in a buttonfactory')
