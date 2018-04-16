@@ -7,7 +7,8 @@ def server(log_buffer=sys.stderr):
     address = ('127.0.0.1', 10000)
     # TODO: Replace the following line with your code which will instantiate
     #       a TCP socket with IPv4 Addressing, call the socket you make 'sock'
-    sock = None
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+   
     # TODO: You may find that if you repeatedly run the server script it fails,
     #       claiming that the port is already used.  You can set an option on
     #       your socket that will fix this problem. We DID NOT talk about this
@@ -17,7 +18,8 @@ def server(log_buffer=sys.stderr):
 
     # log that we are building a server
     print("making a server on {0}:{1}".format(*address), file=log_buffer)
-
+    sock.bind(address)
+    sock.listen(3)
     # TODO: bind your new sock 'sock' to the address above and begin to listen
     #       for incoming connections
 
@@ -32,7 +34,7 @@ def server(log_buffer=sys.stderr):
             #       the client so we can report it below.  Replace the
             #       following line with your code. It is only here to prevent
             #       syntax errors
-            conn, addr = ('foo', ('bar', 'baz'))
+            conn, addr = sock.accept()
             try:
                 print('connection - {0}:{1}'.format(*addr), file=log_buffer)
 
@@ -45,9 +47,13 @@ def server(log_buffer=sys.stderr):
                     #       following line with your code.  It's only here as
                     #       a placeholder to prevent an error in string
                     #       formatting
-                    data = b''
+                    data = conn.recv(16) #b''
+                    if not data:
+                        print("No data was received")
+                        break
+
                     print('received "{0}"'.format(data.decode('utf8')))
-                    
+                    conn.sendall(data, file=log_buffer)    # I am guessing on that log buffer...
                     # TODO: Send the data you received back to the client, log
                     # the fact using the print statement here.  It will help in
                     # debugging problems.
@@ -63,6 +69,7 @@ def server(log_buffer=sys.stderr):
                     # :)
 
             finally:
+                sock.close()
                 # TODO: When the inner loop exits, this 'finally' clause will
                 #       be hit. Use that opportunity to close the socket you
                 #       created above when a client connected.
@@ -75,7 +82,7 @@ def server(log_buffer=sys.stderr):
         #       close the server socket and exit from the server function.
         #       Replace the call to `pass` below, which is only there to
         #       prevent syntax problems
-        pass
+        sock.close()
         print('quitting echo server', file=log_buffer)
 
 
