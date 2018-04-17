@@ -13,7 +13,7 @@ def server(log_buffer=sys.stderr):
     print("making a server on {0}:{1}".format(*address), file=log_buffer)
     try:
         sock.bind(address)
-    except socket.error:    #aborts program if there is an error
+    except socket.error:    # aborts program if there is an error
         print("Unable to create socket.")
         sock.close()
         exit()
@@ -29,29 +29,18 @@ def server(log_buffer=sys.stderr):
             try:
                 print('Connection - {0}:{1}'.format(*addr), file=log_buffer)
                 while True:
-                    data = conn.recv(16) #b''
-                    #if not data:
-                     #   print("No data was received")
-                      #  break
+                    data = conn.recv(16)
                     print('received "{0}"'.format(data.decode('utf8')))
-                    conn.sendall(data, file=log_buffer)    # I am guessing on that log buffer...
+                    conn.sendall(data)
                     print('sent "{0}"'.format(data.decode('utf8')))
-                    
-                    # TODO: Check here to see whether you have received the end
-                    # of the message. If you have, then break from the `while True`
-                    # loop.
-                    # 
-                    # Figuring out whether or not you have received the end of the
-                    # message is a trick we learned in the lesson: if you don't
-                    # remember then ask your classmates or instructor for a clue.
-                    # :)
-
+                    if len(data) < 16:
+                        print("Reached EOM")
+                        break
+                        sock.close()
             finally:
-                sock.close()
                 print(
                     'Echo complete, client connection closed', file=log_buffer
                 )
-
     except KeyboardInterrupt:
         sock.close()
         print()
