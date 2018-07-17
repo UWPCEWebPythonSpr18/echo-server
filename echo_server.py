@@ -57,14 +57,16 @@ def server(log_buffer=sys.stderr):
                     # TODO: Send the data you received back to the client, log
                     # the fact using the print statement here.  It will help in
                     # debugging problems.
-                    conn.sendall(data)
-                    print('sent "{0}"'.format(data.decode('utf8')), file=log_buffer)
+                    if data:
+                        conn.sendall(data)
+                        print('sent "{0}"'.format(data.decode('utf8')), file=log_buffer)
+                    else:
+                        break
                     
                     # TODO: Check here to see whether you have received the end
                     # of the message. If you have, then break from the `while True`
                     # loop.
-                    if data is None:
-                        break
+                    
                     # Figuring out whether or not you have received the end of the
                     # message is a trick we learned in the lesson: if you don't
                     # remember then ask your classmates or instructor for a clue.
