@@ -12,8 +12,6 @@ def client(msg, log_buffer=sys.stderr):
                          proto=socket.IPPROTO_TCP)
 
     print('connecting to {0} port {1}'.format(*server_address), file=log_buffer)
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind(server_address)
     sock.connect(server_address)
 
     # you can use this variable to accumulate the entire message received back
@@ -25,7 +23,8 @@ def client(msg, log_buffer=sys.stderr):
     try:
         print('sending "{0}"'.format(msg), file=log_buffer)
         # TODO: send your message to the server here.
-        
+        print(msg)
+        sock.sendall(msg.decode())
         # TODO: the server should be sending you back your message as a series
         #       of 16-byte chunks. Accumulate the chunks you get to build the
         #       entire reply from the server. Make sure that you have received
