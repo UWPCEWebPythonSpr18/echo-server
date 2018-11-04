@@ -49,7 +49,7 @@ def client(msg, log_buffer=sys.stderr):
         #       the server you will want to close your client socket.
         print('closing socket', file=log_buffer)
         print('rcvd message: {}'.format(received_message))
-        socket.close()
+        sock.close()
         # TODO: when all is said and done, you should return the entire reply
         # you received from the server as the return value of this function.
         return received_message
