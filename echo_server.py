@@ -47,7 +47,7 @@ def server(log_buffer=sys.stderr):
                     #       following line with your code.  It's only here as
                     #       a placeholder to prevent an error in string
                     #       formatting
-                    data = sock.recv(16)
+                    data = conn.recv(16)
                     print('received "{0}"'.format(data.decode('utf8')))
                     
                     # TODO: Send the data you received back to the client, log
@@ -73,7 +73,7 @@ def server(log_buffer=sys.stderr):
                 print(
                     'echo complete, client connection closed', file=log_buffer
                 )
-                sock.close()
+                conn.close()
 
     except KeyboardInterrupt:
         # TODO: Use the python KeyboardInterrupt exception as a signal to
